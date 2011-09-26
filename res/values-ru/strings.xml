@@ -777,10 +777,5 @@
     <!-- Voice quality filter -->
     <string name="voice_quality_preferences_title">Настройка CrystalTalk</string>
     <string name="voice_quality_summary">Аудио-профили входящего вызова</string>
-    <string-array name="voice_quality_choices">
-        <item>Normal</item>
-        <item>Clear</item>
-        <item>Crisp</item>
-        <item>Bright</item>
-    </string-array>
+
 </resources>
