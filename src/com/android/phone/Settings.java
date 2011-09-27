@@ -59,11 +59,11 @@ public class Settings extends PreferenceActivity implements DialogInterface.OnCl
     private static final String BUTTON_ROAMING_KEY = "button_roaming_key";
     private static final String BUTTON_MVNO_ROAMING_KEY = "button_mvno_roaming_key";
     private static final String BUTTON_CDMA_ROAMING_KEY = "cdma_roaming_mode_key";
-
     private static final String BUTTON_GSM_UMTS_OPTIONS = "gsm_umts_options_key";
     private static final String BUTTON_CDMA_OPTIONS = "cdma_options_key";
 
-    static final int preferredNetworkMode = Phone.PREFERRED_NT_MODE;
+    private static final int preferredNetworkMode = Phone.PREFERRED_NT_MODE;
+
     //UI objects
     private ListPreference mButtonPreferredNetworkMode;
     private ListPreference mButtonPreferredUmtsNetworkMode;
@@ -130,18 +130,20 @@ public class Settings extends PreferenceActivity implements DialogInterface.OnCl
                     REQUEST_CODE_EXIT_ECM);
             }
             return true;
-        } else if (preference == mButtonPreferredNetworkMode || 
-                       preference == mButtonPreferredUmtsNetworkMode || 
+
+        } else if (preference == mButtonPreferredNetworkMode ||
+                       preference == mButtonPreferredUmtsNetworkMode ||
                        preference == mButtonPreferredCdmaNetworkMode) {
             //displays the value taken from the Settings.System
             int phoneType = mPhone.getPhoneType();
             int settingsNetworkMode = android.provider.Settings.Secure.getInt(mPhone.getContext().
                     getContentResolver(), android.provider.Settings.Secure.PREFERRED_NETWORK_MODE,
                     preferredNetworkMode);
-	    mButtonPreferredUmtsNetworkMode.setValue(Integer.toString(settingsNetworkMode));
-	    mButtonPreferredCdmaNetworkMode.setValue(Integer.toString(settingsNetworkMode));
-	    mButtonPreferredNetworkMode.setValue(Integer.toString(settingsNetworkMode));
+            mButtonPreferredUmtsNetworkMode.setValue(Integer.toString(settingsNetworkMode));
+            mButtonPreferredCdmaNetworkMode.setValue(Integer.toString(settingsNetworkMode));
+            mButtonPreferredNetworkMode.setValue(Integer.toString(settingsNetworkMode));
             return true;
+
         } else if (preference == mButtonDataRoam) {
             if (DBG) log("onPreferenceTreeClick: preference == mButtonDataRoam.");
 
@@ -161,6 +163,7 @@ public class Settings extends PreferenceActivity implements DialogInterface.OnCl
                 mPhone.setDataRoamingEnabled(false);
             }
             return true;
+
         } else if (preference == mButtonMvnoDataRoam) {
             if (mButtonMvnoDataRoam.isChecked()) {
                 new AlertDialog.Builder(this).setMessage(
@@ -185,6 +188,7 @@ public class Settings extends PreferenceActivity implements DialogInterface.OnCl
             android.provider.Settings.System.putInt(getContentResolver(),
                         android.provider.Settings.Secure.MVNO_ROAMING, 0);
             return true;
+
         } else if (preference == mButtonDataEnabled) {
             if (DBG) log("onPreferenceTreeClick: preference == mButtonDataEnabled.");
             ConnectivityManager cm =
@@ -194,10 +198,10 @@ public class Settings extends PreferenceActivity implements DialogInterface.OnCl
             //{PIAF
             Intent intent = new Intent(PhoneToggler.MOBILE_DATA_CHANGED);
             intent.putExtra(PhoneToggler.NETWORK_MODE, mButtonDataEnabled.isChecked());
-            mPhone.getContext().sendBroadcast(intent);                
+            mPhone.getContext().sendBroadcast(intent);
             //PIAF}
-            
             return true;
+
         } else {
             // if the button is anything but the simple toggle preference,
             // we'll need to disable all preferences to reject all click
@@ -211,7 +215,7 @@ public class Settings extends PreferenceActivity implements DialogInterface.OnCl
     @Override
     protected void onCreate(Bundle icicle) {
         super.onCreate(icicle);
-        
+
         addPreferencesFromResource(R.xml.network_setting);
 
         mPhone = PhoneFactory.getDefaultPhone();
@@ -227,7 +231,7 @@ public class Settings extends PreferenceActivity implements DialogInterface.OnCl
                 android.provider.Settings.Secure.MVNO_ROAMING, 0) == 1);
 
         mButtonPreferredCdmaNetworkMode = (ListPreference) prefSet.findPreference(
-               BUTTON_PREFERED_CDMA_NETWORK_MODE);
+                BUTTON_PREFERED_CDMA_NETWORK_MODE);
         mButtonPreferredUmtsNetworkMode = (ListPreference) prefSet.findPreference(
                 BUTTON_PREFERED_UMTS_NETWORK_MODE);
         mButtonPreferredNetworkMode = (ListPreference) prefSet.findPreference(
@@ -236,6 +240,7 @@ public class Settings extends PreferenceActivity implements DialogInterface.OnCl
         mButtonDataUsage = prefSet.findPreference(BUTTON_DATA_USAGE_KEY);
 
         if (getResources().getBoolean(R.bool.world_phone) == true) {
+
             prefSet.removePreference(mButtonPreferredUmtsNetworkMode);
             prefSet.removePreference(mButtonPreferredCdmaNetworkMode);
             // set the listener for the mButtonPreferredNetworkMode list preference so we can issue
@@ -243,32 +248,41 @@ public class Settings extends PreferenceActivity implements DialogInterface.OnCl
             mButtonPreferredNetworkMode.setOnPreferenceChangeListener(this);
 
             //Get the networkMode from Settings.System and displays it
-            int settingsNetworkMode = android.provider.Settings.Secure.getInt(mPhone.getContext().
-                    getContentResolver(),android.provider.Settings.Secure.PREFERRED_NETWORK_MODE,
+            int settingsNetworkMode = android.provider.Settings.Secure.getInt(
+                    mPhone.getContext().getContentResolver(),
+                    android.provider.Settings.Secure.PREFERRED_NETWORK_MODE,
                     preferredNetworkMode);
+
             mButtonPreferredNetworkMode.setValue(Integer.toString(settingsNetworkMode));
             mCdmaOptions = new CdmaOptions(this, prefSet);
             mGsmUmtsOptions = new GsmUmtsOptions(this, prefSet);
+
         } else {
+
             //Get the networkMode from Settings.System and displays it
             int phoneType = mPhone.getPhoneType();
             prefSet.removePreference(mButtonPreferredNetworkMode);
-            int settingsNetworkMode = android.provider.Settings.Secure.getInt(mPhone.getContext().
-                    getContentResolver(),android.provider.Settings.Secure.PREFERRED_NETWORK_MODE,
+            int settingsNetworkMode = android.provider.Settings.Secure.getInt(
+                    mPhone.getContext().getContentResolver(),
+                    android.provider.Settings.Secure.PREFERRED_NETWORK_MODE,
                     preferredNetworkMode);
+
             if (phoneType == Phone.PHONE_TYPE_CDMA) {
                 mCdmaOptions = new CdmaOptions(this, prefSet);
-            prefSet.removePreference(mButtonPreferredUmtsNetworkMode);
-            mButtonPreferredCdmaNetworkMode.setOnPreferenceChangeListener(this);
-            mButtonPreferredCdmaNetworkMode.setValue(Integer.toString(settingsNetworkMode));
+                prefSet.removePreference(mButtonPreferredUmtsNetworkMode);
+                mButtonPreferredCdmaNetworkMode.setOnPreferenceChangeListener(this);
+                mButtonPreferredCdmaNetworkMode.setValue(Integer.toString(settingsNetworkMode));
+
             } else if (phoneType == Phone.PHONE_TYPE_GSM) {
                 mGsmUmtsOptions = new GsmUmtsOptions(this, prefSet);
-            prefSet.removePreference(mButtonPreferredCdmaNetworkMode);
-            mButtonPreferredUmtsNetworkMode.setOnPreferenceChangeListener(this);
-            mButtonPreferredUmtsNetworkMode.setValue(Integer.toString(settingsNetworkMode));
+                prefSet.removePreference(mButtonPreferredCdmaNetworkMode);
+                mButtonPreferredUmtsNetworkMode.setOnPreferenceChangeListener(this);
+                mButtonPreferredUmtsNetworkMode.setValue(Integer.toString(settingsNetworkMode));
+
             } else {
                 throw new IllegalStateException("Unexpected phone type: " + phoneType);
             }
+
         }
         ThrottleManager tm = (ThrottleManager) getSystemService(Context.THROTTLE_SERVICE);
         mDataUsageListener = new DataUsageListener(this, mButtonDataUsage, prefSet);
@@ -313,13 +327,13 @@ public class Settings extends PreferenceActivity implements DialogInterface.OnCl
      * display value.
      */
     public boolean onPreferenceChange(Preference preference, Object objValue) {
-        if (preference == mButtonPreferredNetworkMode || 
-                preference == mButtonPreferredUmtsNetworkMode || 
+        if (preference == mButtonPreferredNetworkMode ||
+                preference == mButtonPreferredUmtsNetworkMode ||
                 preference == mButtonPreferredCdmaNetworkMode) {
 
             //NOTE onPreferenceChange seems to be called even if there is no change
             //Check if the button value is changed from the System.Setting
-            mButtonPreferredUmtsNetworkMode.setValue((String) objValue); 
+            mButtonPreferredUmtsNetworkMode.setValue((String) objValue);
             mButtonPreferredCdmaNetworkMode.setValue((String) objValue);
             mButtonPreferredNetworkMode.setValue((String) objValue);
             int buttonNetworkMode;
@@ -369,9 +383,8 @@ public class Settings extends PreferenceActivity implements DialogInterface.OnCl
                 //{PIAF
                 Intent intent = new Intent(PhoneToggler.NETWORK_MODE_CHANGED);
                 intent.putExtra(PhoneToggler.NETWORK_MODE, buttonNetworkMode);
-                mPhone.getContext().sendBroadcast(intent, PhoneToggler.CHANGE_NETWORK_MODE_PERM);                
+                mPhone.getContext().sendBroadcast(intent, PhoneToggler.CHANGE_NETWORK_MODE_PERM);
                 //PIAF}
-                
             }
         }
 
@@ -462,9 +475,8 @@ public class Settings extends PreferenceActivity implements DialogInterface.OnCl
                     //{PIAF
                     Intent intent = new Intent(PhoneToggler.NETWORK_MODE_CHANGED);
                     intent.putExtra(PhoneToggler.NETWORK_MODE, modemNetworkMode);
-                    mPhone.getContext().sendBroadcast(intent, PhoneToggler.CHANGE_NETWORK_MODE_PERM);                
+                    mPhone.getContext().sendBroadcast(intent, PhoneToggler.CHANGE_NETWORK_MODE_PERM);
                     //PIAF}
-                    
                 } else {
                     if (DBG) log("handleGetPreferredNetworkTypeResponse: else: reset to default");
                     resetNetworkModeToDefault();
@@ -477,25 +489,24 @@ public class Settings extends PreferenceActivity implements DialogInterface.OnCl
             int phoneType = mPhone.getPhoneType();
             int networkMode;
             if (ar.exception == null) {
-              if (phoneType == Phone.PHONE_TYPE_GSM) {
-                 networkMode = Integer.valueOf(
+                if (phoneType == Phone.PHONE_TYPE_GSM) {
+                    networkMode = Integer.valueOf(
                         mButtonPreferredUmtsNetworkMode.getValue()).intValue();
-            } else if (phoneType == Phone.PHONE_TYPE_CDMA) {
-                 networkMode = Integer.valueOf(
+                } else if (phoneType == Phone.PHONE_TYPE_CDMA) {
+                    networkMode = Integer.valueOf(
                         mButtonPreferredCdmaNetworkMode.getValue()).intValue();
-            } else {
-		 networkMode = Integer.valueOf(
+                } else {
+                    networkMode = Integer.valueOf(
                         mButtonPreferredNetworkMode.getValue()).intValue();
-	     }
+                }
                 android.provider.Settings.Secure.putInt(mPhone.getContext().getContentResolver(),
                         android.provider.Settings.Secure.PREFERRED_NETWORK_MODE,
                         networkMode );
                 //{PIAF
                 Intent intent = new Intent(PhoneToggler.NETWORK_MODE_CHANGED);
                 intent.putExtra(PhoneToggler.NETWORK_MODE, networkMode);
-                mPhone.getContext().sendBroadcast(intent, PhoneToggler.CHANGE_NETWORK_MODE_PERM);                
+                mPhone.getContext().sendBroadcast(intent, PhoneToggler.CHANGE_NETWORK_MODE_PERM);
                 //PIAF}
-                
             } else {
                 mPhone.getPreferredNetworkType(obtainMessage(MESSAGE_GET_PREFERRED_NETWORK_TYPE));
             }
@@ -503,7 +514,7 @@ public class Settings extends PreferenceActivity implements DialogInterface.OnCl
 
         private void resetNetworkModeToDefault() {
             //set the mButtonPreferredNetworkMode
-	    mButtonPreferredCdmaNetworkMode.setValue(Integer.toString(preferredNetworkMode));
+            mButtonPreferredCdmaNetworkMode.setValue(Integer.toString(preferredNetworkMode));
             mButtonPreferredUmtsNetworkMode.setValue(Integer.toString(preferredNetworkMode));
             mButtonPreferredNetworkMode.setValue(Integer.toString(preferredNetworkMode));
             //set the Settings.System
@@ -517,9 +528,9 @@ public class Settings extends PreferenceActivity implements DialogInterface.OnCl
     }
 
     private void UpdatePreferredNetworkModeSummary(int NetworkMode) {
-      int phoneType = mPhone.getPhoneType();
-       if (phoneType == Phone.PHONE_TYPE_CDMA) {
-        switch(NetworkMode) {
+        int phoneType = mPhone.getPhoneType();
+        if (phoneType == Phone.PHONE_TYPE_CDMA) {
+            switch(NetworkMode) {
             case Phone.NT_MODE_CDMA_NO_EVDO:
                 mButtonPreferredCdmaNetworkMode.setSummary("Preferred network mode: CDMA only");
                 break;
@@ -529,9 +540,9 @@ public class Settings extends PreferenceActivity implements DialogInterface.OnCl
             case Phone.NT_MODE_CDMA:
             default:
                 mButtonPreferredCdmaNetworkMode.setSummary("Preferred network mode: CDMA / EvDo");
-        }
-      } else if (phoneType == Phone.PHONE_TYPE_GSM) {
-        switch(NetworkMode) {
+            }
+        } else if (phoneType == Phone.PHONE_TYPE_GSM) {
+            switch(NetworkMode) {
             case Phone.NT_MODE_WCDMA_PREF:
                 mButtonPreferredUmtsNetworkMode.setSummary("Preferred network mode: WCDMA pref");
                 break;
@@ -544,9 +555,9 @@ public class Settings extends PreferenceActivity implements DialogInterface.OnCl
             case Phone.NT_MODE_GSM_UMTS:
             default:
                 mButtonPreferredUmtsNetworkMode.setSummary("Preferred network mode: GSM/WCDMA");
-      }
-     }	else {
-	        switch(NetworkMode) {
+            }
+        } else {
+            switch(NetworkMode) {
             case Phone.NT_MODE_WCDMA_PREF:
                 mButtonPreferredNetworkMode.setSummary("Preferred network mode: WCDMA pref");
                 break;
@@ -571,9 +582,10 @@ public class Settings extends PreferenceActivity implements DialogInterface.OnCl
             case Phone.NT_MODE_GLOBAL:
             default:
                 mButtonPreferredNetworkMode.setSummary("Preferred network mode: Global");
+            }
         }
     }
- }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch(requestCode) {
