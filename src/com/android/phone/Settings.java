@@ -62,7 +62,7 @@ public class Settings extends PreferenceActivity implements DialogInterface.OnCl
     private static final String BUTTON_GSM_UMTS_OPTIONS = "gsm_umts_options_key";
     private static final String BUTTON_CDMA_OPTIONS = "cdma_options_key";
 
-    private static final int preferredNetworkMode = Phone.PREFERRED_NT_MODE;
+    static final int preferredNetworkMode = Phone.PREFERRED_NT_MODE;
 
     //UI objects
     private ListPreference mButtonPreferredNetworkMode;
