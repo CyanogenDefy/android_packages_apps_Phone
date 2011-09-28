@@ -239,7 +239,7 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
     private static Vibrator mVibrator = null;
     private static AlarmManager mAM;
 
-    //for adding to Blacklist from call log 
+    //for adding to Blacklist from call log
     private static final String INSERT_BLACKLIST = "com.android.phone.INSERT_BLACKLIST";
 
     public void startVib45(long callDurationMsec) {
@@ -1216,7 +1216,7 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
                 // turn proximity sensor off and turn screen on immediately if
                 // we are using a headset, the keyboard is open, or the device
                 // is being held in a horizontal position.
-                boolean screenOnImmediately = (isHeadsetPlugged()
+                boolean screenOnImmediately = ((!mSettings.mAlwaysProximity)
                             || PhoneUtils.isSpeakerOn(this)
                             || ((mBtHandsfree != null) && mBtHandsfree.isAudioOn())
                             || mIsHardKeyboardOpen);
