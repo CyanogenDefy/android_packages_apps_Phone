@@ -353,7 +353,7 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
                     phoneState = mCM.getState();
                     // Do not change speaker state if phone is not off hook
                     if (phoneState == Phone.State.OFFHOOK) {
-                        if (mBtHandsfree == null || !mBtHandsfree.isAudioOn()) {
+                        if (!isBtAudioConnected()) {
                             if (!isHeadsetPlugged()) {
                                 // if the state is "not connected", restore the speaker state.
                                 PhoneUtils.restoreSpeakerMode(getApplicationContext());
@@ -410,7 +410,7 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
                     phoneState = mCM.getState();
                     if (phoneState == Phone.State.OFFHOOK &&
                             !isHeadsetPlugged() &&
-                            !(mBtHandsfree != null && mBtHandsfree.isAudioOn())) {
+                            !isBtAudioConnected()) {
                         PhoneUtils.turnOnSpeaker(getApplicationContext(), inDockMode, true);
 
                         if (mInCallScreen != null) {
@@ -1216,10 +1216,10 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
                 // turn proximity sensor off and turn screen on immediately if
                 // we are using a headset, the keyboard is open, or the device
                 // is being held in a horizontal position.
-                boolean screenOnImmediately = ((!mSettings.mAlwaysProximity)
+                boolean screenOnImmediately = (mIsHardKeyboardOpen
                             || PhoneUtils.isSpeakerOn(this)
-                            || ((mBtHandsfree != null) && mBtHandsfree.isAudioOn())
-                            || mIsHardKeyboardOpen);
+                            || ((isHeadsetPlugged() || isBtAudioConnected()) &&
+                                !mSettings.mAlwaysProximity));
                 // We do not keep the screen off when we are horizontal, but we do not force it
                 // on when we become horizontal until the proximity sensor goes negative.
                 boolean horizontal = (mOrientation == AccelerometerListener.ORIENTATION_HORIZONTAL);
@@ -1366,6 +1366,13 @@ public class PhoneApp extends Application implements AccelerometerListener.Orien
      */
     boolean isHeadsetPlugged() {
         return mIsHeadsetPlugged;
+    }
+
+    /**
+     * @return true if a BT headset is currently connected
+     */
+    private boolean isBtAudioConnected() {
+        return mBtHandsfree != null && mBtHandsfree.isAudioOn();
     }
 
     /**
