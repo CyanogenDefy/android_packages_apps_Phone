@@ -257,6 +257,10 @@ public class Settings extends PreferenceActivity implements DialogInterface.OnCl
             mCdmaOptions = new CdmaOptions(this, prefSet);
             mGsmUmtsOptions = new GsmUmtsOptions(this, prefSet);
 
+            if (getResources().getBoolean(R.bool.config_preferred_mode_disable) == true) {
+                prefSet.removePreference(mButtonPreferredNetworkMode);
+            }
+
         } else {
 
             //Get the networkMode from Settings.System and displays it
@@ -272,15 +276,18 @@ public class Settings extends PreferenceActivity implements DialogInterface.OnCl
                 prefSet.removePreference(mButtonPreferredUmtsNetworkMode);
                 mButtonPreferredCdmaNetworkMode.setOnPreferenceChangeListener(this);
                 mButtonPreferredCdmaNetworkMode.setValue(Integer.toString(settingsNetworkMode));
-
             } else if (phoneType == Phone.PHONE_TYPE_GSM) {
                 mGsmUmtsOptions = new GsmUmtsOptions(this, prefSet);
                 prefSet.removePreference(mButtonPreferredCdmaNetworkMode);
                 mButtonPreferredUmtsNetworkMode.setOnPreferenceChangeListener(this);
                 mButtonPreferredUmtsNetworkMode.setValue(Integer.toString(settingsNetworkMode));
-
             } else {
                 throw new IllegalStateException("Unexpected phone type: " + phoneType);
+            }
+
+            if (getResources().getBoolean(R.bool.config_preferred_mode_disable) == true) {
+                prefSet.removePreference(mButtonPreferredCdmaNetworkMode);
+                prefSet.removePreference(mButtonPreferredUmtsNetworkMode);
             }
 
         }
