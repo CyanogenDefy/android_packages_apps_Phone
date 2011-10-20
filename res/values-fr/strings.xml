@@ -202,10 +202,10 @@
     <item msgid="3273348576277144124">"EvDo uniquement"</item>
     <item msgid="454610224530856274">"CDMA sans EvDo"</item>
     <item msgid="8928247118825616081">"CDMA/EvDo automatique"</item>
-    <item msgid="8595462903294812666">"GSM/WCDMA automatique"</item>
-    <item msgid="5189164180446264504">"WCDMA uniquement"</item>
-    <item msgid="5714714953966979187">"GSM uniquement"</item>
-    <item msgid="4775796025725908913">"GSM/WCDMA préféré"</item>
+    <item>GSM/UMTS automatique</item>
+    <item>UMTS uniquement</item>
+    <item>GSM uniquement</item>
+    <item>GSM/UMTS préféré</item>
   </string-array>
     <string name="data_enabled" msgid="5972538663568715366">"Données activées"</string>
     <string name="data_enable_summary" msgid="5022018967714633874">"Activer l\'accès aux données sur le réseau mobile"</string>
@@ -310,14 +310,13 @@
     <string name="enable_disable_multi_category" msgid="626771003122899280">"Multi-catégories"</string>
     <string name="multi_category_enable" msgid="1179299804641721768">"Option \"Multi-catégories\" activée"</string>
     <string name="multi_category_disable" msgid="880104702904139505">"Option \"Multi-catégories\" désactivée"</string>
-    <string name="gsm_umts_network_preferences_title" msgid="4834419333547382436">"Préférences réseau GSM/UMTS"</string>
-    <string name="gsm_umts_network_preferneces_summary" msgid="1905018644156819521">"Pas encore implémenté"</string>
-    <string name="gsm_umts_network_preferences_dialogtitle" msgid="6356332580813229898">"Préférences réseau GSM/UMTS"</string>
+    <string name="gsm_umts_network_preferences_title">Type de réseau mobile</string>
+    <string name="gsm_umts_network_preferences_dialogtitle">Préférences réseau mobile</string>
   <string-array name="gsm_umts_network_preferences_choices">
-    <item msgid="935612021902787683">"GSM/WCDMA (mode automatique)"</item>
-    <item msgid="8912042051809329533">"WCDMA uniquement"</item>
-    <item msgid="8776934131146642662">"GSM uniquement"</item>
-    <item msgid="4684679567848300935">"GSM/WCDMA (WCDMA préféré)"</item>
+    <item>GSM/UMTS (mode automatique)</item>
+    <item>UMTS uniquement</item>
+    <item>GSM uniquement</item>
+    <item>GSM/UMTS (UMTS préféré)</item>
   </string-array>
     <string name="prefer_2g" msgid="8442550937280449639">"Réseau 2G seulement"</string>
     <string name="prefer_2g_summary" msgid="1976491403210690759">"Économise la batterie"</string>

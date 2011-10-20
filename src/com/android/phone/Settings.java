@@ -536,6 +536,8 @@ public class Settings extends PreferenceActivity implements DialogInterface.OnCl
 
     private void UpdatePreferredNetworkModeSummary(int NetworkMode) {
         int phoneType = mPhone.getPhoneType();
+
+        // TODO T: Make all of these strings come from res/values/strings.xml.
         if (phoneType == Phone.PHONE_TYPE_CDMA) {
             switch(NetworkMode) {
             case Phone.NT_MODE_CDMA_NO_EVDO:
