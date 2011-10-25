@@ -536,61 +536,62 @@ public class Settings extends PreferenceActivity implements DialogInterface.OnCl
 
     private void UpdatePreferredNetworkModeSummary(int NetworkMode) {
         int phoneType = mPhone.getPhoneType();
+        final String prefMode = getResources().getString(R.string.preferred_network_mode_dialogtitle);
 
         // TODO T: Make all of these strings come from res/values/strings.xml.
         if (phoneType == Phone.PHONE_TYPE_CDMA) {
             switch(NetworkMode) {
             case Phone.NT_MODE_CDMA_NO_EVDO:
-                mButtonPreferredCdmaNetworkMode.setSummary("Preferred network mode: CDMA only");
+                mButtonPreferredCdmaNetworkMode.setSummary(prefMode + ": CDMA only");
                 break;
             case Phone.NT_MODE_EVDO_NO_CDMA:
-                mButtonPreferredCdmaNetworkMode.setSummary("Preferred network mode: EvDo only");
+                mButtonPreferredCdmaNetworkMode.setSummary(prefMode + ": EvDo only");
                 break;
             case Phone.NT_MODE_CDMA:
             default:
-                mButtonPreferredCdmaNetworkMode.setSummary("Preferred network mode: CDMA / EvDo");
+                mButtonPreferredCdmaNetworkMode.setSummary(prefMode + ": CDMA / EvDo");
             }
         } else if (phoneType == Phone.PHONE_TYPE_GSM) {
             switch(NetworkMode) {
             case Phone.NT_MODE_WCDMA_PREF:
-                mButtonPreferredUmtsNetworkMode.setSummary("Preferred network mode: WCDMA pref");
+                mButtonPreferredUmtsNetworkMode.setSummary(prefMode + ": WCDMA pref");
                 break;
             case Phone.NT_MODE_GSM_ONLY:
-                mButtonPreferredUmtsNetworkMode.setSummary("Preferred network mode: GSM only");
+                mButtonPreferredUmtsNetworkMode.setSummary(prefMode + ": GSM only");
                 break;
             case Phone.NT_MODE_WCDMA_ONLY:
-                mButtonPreferredUmtsNetworkMode.setSummary("Preferred network mode: WCDMA only");
+                mButtonPreferredUmtsNetworkMode.setSummary(prefMode + ": WCDMA only");
                 break;
             case Phone.NT_MODE_GSM_UMTS:
             default:
-                mButtonPreferredUmtsNetworkMode.setSummary("Preferred network mode: GSM/WCDMA");
+                mButtonPreferredUmtsNetworkMode.setSummary(prefMode + ": GSM/WCDMA");
             }
         } else {
             switch(NetworkMode) {
             case Phone.NT_MODE_WCDMA_PREF:
-                mButtonPreferredNetworkMode.setSummary("Preferred network mode: WCDMA pref");
+                mButtonPreferredNetworkMode.setSummary(prefMode + ": WCDMA pref");
                 break;
             case Phone.NT_MODE_GSM_ONLY:
-                mButtonPreferredNetworkMode.setSummary("Preferred network mode: GSM only");
+                mButtonPreferredNetworkMode.setSummary(prefMode + ": GSM only");
                 break;
             case Phone.NT_MODE_WCDMA_ONLY:
-                mButtonPreferredNetworkMode.setSummary("Preferred network mode: WCDMA only");
+                mButtonPreferredNetworkMode.setSummary(prefMode + ": WCDMA only");
                 break;
             case Phone.NT_MODE_GSM_UMTS:
-                mButtonPreferredNetworkMode.setSummary("Preferred network mode: GSM/WCDMA");
+                mButtonPreferredNetworkMode.setSummary(prefMode + ": GSM/WCDMA");
                 break;
             case Phone.NT_MODE_CDMA:
-                mButtonPreferredNetworkMode.setSummary("Preferred network mode: CDMA / EvDo");
+                mButtonPreferredNetworkMode.setSummary(prefMode + ": CDMA / EvDo");
                 break;
             case Phone.NT_MODE_CDMA_NO_EVDO:
-                mButtonPreferredNetworkMode.setSummary("Preferred network mode: CDMA only");
+                mButtonPreferredNetworkMode.setSummary(prefMode + ": CDMA only");
                 break;
             case Phone.NT_MODE_EVDO_NO_CDMA:
-                mButtonPreferredNetworkMode.setSummary("Preferred network mode: EvDo only");
+                mButtonPreferredNetworkMode.setSummary(prefMode + ": EvDo only");
                 break;
             case Phone.NT_MODE_GLOBAL:
             default:
-                mButtonPreferredNetworkMode.setSummary("Preferred network mode: Global");
+                mButtonPreferredNetworkMode.setSummary(prefMode + ": Global");
             }
         }
     }
