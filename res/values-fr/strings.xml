@@ -202,10 +202,10 @@
     <item msgid="3273348576277144124">"EvDo uniquement"</item>
     <item msgid="454610224530856274">"CDMA sans EvDo"</item>
     <item msgid="8928247118825616081">"CDMA/EvDo automatique"</item>
-    <item>GSM/UMTS automatique</item>
+    <item>GSM/UMTS (automatique)</item>
     <item>UMTS uniquement</item>
     <item>GSM uniquement</item>
-    <item>GSM/UMTS préféré</item>
+    <item>GSM/UMTS (UMTS préféré)</item>
   </string-array>
     <string name="data_enabled" msgid="5972538663568715366">"Données activées"</string>
     <string name="data_enable_summary" msgid="5022018967714633874">"Activer l\'accès aux données sur le réseau mobile"</string>
